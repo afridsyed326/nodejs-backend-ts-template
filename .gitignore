@@ -1,0 +1,11 @@
+node_modules
+package-lock.json
+yarn.lock
+.env
+managed_context
+test_suite_analysis
+dist
+/dist
+uploads
+db_backups
+users.csv
