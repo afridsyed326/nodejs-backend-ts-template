@@ -1,5 +1,5 @@
 {
-  "name": "pulseworld",
+  "name": "projectname",
   "scripts": {
     "build": "npx tsc",
     "start": "node ./dist/app.js",

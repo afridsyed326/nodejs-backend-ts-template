@@ -40,7 +40,7 @@ export async function uploadFileToGC(reqFile: MulterFile, folder: string = 'uplo
     newFilename = makeSlug(newFilename) + extension;
 
     const bucket: Bucket = storage.bucket(process.env.GC_BUCKET_NAME!);
-    const blob = bucket.file(`pulseworld/${folder}/${newFilename}`);
+    const blob = bucket.file(`${process.env.PROJECT_NAME}/${folder}/${newFilename}`);
 
     const uploadPromise = new Promise<UploadReturnType>((resolve, reject) => {
       const blobStream = blob.createWriteStream({ resumable: false });
@@ -92,9 +92,7 @@ export async function uploadFileFromPathToGC(filePath: string, destinationFileNa
   try {
     // Specify the bucket and file path for upload
     const bucket = storage.bucket(process.env.GC_BUCKET_NAME!);
-    const file = bucket.file(`pulseworld/${destinationFileName}`);
-
-    console.log({ filePath });
+    const file = bucket.file(`${process.env.PROJECT_NAME}/${destinationFileName}`);
 
     // Upload the file to the specified location in the bucket
     const fp = path.join(process.cwd(), filePath);

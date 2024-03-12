@@ -107,7 +107,7 @@ export const signUp = async (req: Request, res: Response) => {
     code: otp,
   });
 
-  new EmailSender(user.email, 'PulseWorld - Email Verification', 'email_verification', { user: user, otp });
+  new EmailSender(user.email, 'Email Verification', 'email_verification', { user: user, otp });
 
   await setUserLoginActivity(req, newUser);
 
@@ -175,7 +175,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
   const resetLink = process.env.FRONTEND_LINK + `/auth/reset-password?token=${token}`;
 
   // passwordResetEmail(userExists, resetLink);
-  new EmailSender(userExists.email, 'PulseWorld - Reset Password', 'reset_password', {
+  new EmailSender(userExists.email, 'Reset Password', 'reset_password', {
     username: userExists.username,
     link: resetLink,
   });
@@ -257,7 +257,7 @@ export const sendOtp = async (req: Request, res: Response) => {
     code: otp,
   });
 
-  new EmailSender(userExists.email, 'PulseWorld - Email Verification', 'email_verification', { user: userExists, otp });
+  new EmailSender(userExists.email, 'Email Verification', 'email_verification', { user: userExists, otp });
 
   return apiResponse({
     res,

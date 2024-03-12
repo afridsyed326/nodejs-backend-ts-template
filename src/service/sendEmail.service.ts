@@ -53,11 +53,11 @@ class EmailSender {
     this.transporter.use('compile', hbs(handlebarsOptions as hbs.NodemailerExpressHandlebarsOptions));
 
     this.defaultOptions = {
-      from: 'Compaby name',
+      from: 'Company name',
       to: this.email,
       subject: this?.subject,
       template: this?.templateName,
-      context: this.context || {},
+      context: {...this.context, projectName: process.env.PROJECT_NAME} || {projectName: process.env.PROJECT_NAME},
     };
 
     this.send();
