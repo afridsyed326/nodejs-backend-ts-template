@@ -1,13 +1,20 @@
-# Requirements
+# This repository serves as a comprehensive Node.js backend template equipped with essential features and configurations to kickstart your development process. Below, you'll find instructions on setting up the project environment, along with details on environment variables and commands for both development and production environments.
+
+### Requirements
 - **nodejs version > 18.0**
 - **mongodb version > 6.0 with minimum 2 replica sets**
-- **gcloud storage**
+- **gcloud storage** (optional)
 
-## Deployment steps
+### To set up the project for development:
 
-### 1. Clone the repository
-### 2. Create **.env** file in root folder and paste the content from *.example.env*
-### 3. Replace the keys in .env files with production keys
+1. Clone the repository: git clone https://github.com/afridsyed326/nodejs-backend-ts-template.git.
+2. Install dependencies: npm install.
+3. Create a .env file based on the provided .env.example.
+4. Set up environment variables in the .env file according to your configuration.
+5. Start the development server: npm run dev.
+
+
+## Env explained
 - `JWT_PRIVATE_KEY_USER` your jwt secret
 - `EXPRESS_SESSION_SECRET` your express secret
 - `PORT` - port on which the backend will run on the server
@@ -17,58 +24,18 @@
 - `GC_BUCKET_NAME` name of google cloud storage bucket
 - `FRONTEND_LINK` url where frontend is deployed
 - `BACKEND_LINK` url of this backend
+- `SMTP_HOST` SMTP Email hostname
+- `SMTP_USER` SMTP email username
+- `SMTP_PASSWORD`  SMTP email password
+- `PROJECT_NAME` project name used in emails
 
-### 4. Go to `/src/service/sendEmail.routes.ts` change the email smtp config according to your email provider.
-
-### 5. Replace the `service_account.json` file with your google cloud service_account file
-
-### 6. Paste the users csv file in the root folder with exact name `users.csv`
-
-##### Expected Users CSV file format:-
-`| username | email | omega_id | first_name | last_name | date_joined | country | AUSD | PUSD | XPL | USDT |`
-*The country must be the international code of the countries* 
-    
-### 7. Run the dev server to check everything is set up 
->`npm install`
->`npm run dev`
-
-### 8. If everything is well, stop the dev server.
-### 9. Run the script to populate the database with all the required data. 
-**Please check the `/scripts` folder which contains all the scripts to populate the database with default values. If there is a need to change any default values, please do so before proceeding forward with this step.**
-**It is advised to run the scripts with real users data in a test environment and test database before going in to the production**
->`npm run script`
-    - Input 'y' to all the question asked
-### 10. After successfully running the script, finish the deployment by running 
-`npm run build`
-`npm start`
-### 11. expose the port to the backend url
+### If you want to use google storage
+Replace the `service_account.json` file with your google cloud service_account file in root directory
 
 
--------------
+Feel free to explore the codebase, customize configurations, and leverage the provided features to accelerate your backend development process. Should you have any questions or need assistance, please refer to the documentation or reach out to the project maintainers.
 
-## How to enable replica set in mongodb (Linux server)
-##### *Note: This procedure only works if there is already one instance of mongodb running. And this procedure may not work for some configs. It is best that you follow mongodb docs to install replica sets.*
+Author: SM Afrid
+Email: afridsyed935@gmail.com
 
-### step 1: Install mongo
-### step 2: `sudo nano /etc/mongod.conf`
-##### Uncomment replication and add
 
-	replication:
-		replSetName: rs1
-
-### step 3: Restart mongo service
-`> sudo systemctl restart mongod`
-check status `sudo systemctl status mongod` . If inactive, you might have to kill temp mongo socket using `sudo rm /tmp/mongodb-27017.sock` and also update mongo permissions by running below commands.
-
-	sudo chown -R mongodb:mongodb /var/lib/mongodb
-	sudo chmod -R 755 /var/lib/mongodb
-	sudo systemctl restart mongod
-
-### step 4: open mongo shell `mongosh`
-	> rs.initiate()
-	> rs.add("127.0.0.1:27018")
-	> rs.status() 
-
-> look in the members array, you will see multiple mongo instances
-
-##### Repeat the above steps to add more replication sets
